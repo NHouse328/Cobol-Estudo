@@ -42,6 +42,7 @@
                MAIN-PROCEDURE.
 
                    PERFORM PREPARA-TABLE.
+                   PERFORM EXIBE-TABLE.
 
                    PERFORM LOOP.
 
@@ -62,6 +63,9 @@
 
                    PERFORM JOGO VARYING APOIO FROM 1 BY 1 UNTIL FIM = 1.
 
+               VISUAL.
+
+                   DISPLAY '*********'.
 
                PREPARA-TABLE.
 
@@ -69,16 +73,23 @@
 
                EXIBE-TABLE.
 
+                   PERFORM VISUAL.
+
                    PERFORM VARYING X FROM 1 BY 1 UNTIL X > 3
 
-                       DISPLAY X-TABLE(X)
+                       DISPLAY '***' WITH NO ADVANCING
+                       DISPLAY X-TABLE(X) WITH NO ADVANCING
+                       DISPLAY '***'
 
                    END-PERFORM.
+
+                   PERFORM VISUAL.
 
                VERIFICA-CASA.
 
                    IF NOT OCUPADO(CORDENADA-X,CORDENADA-Y)
                        DISPLAY 'CASA OCUPADA'
+                       PERFORM EXIBE-TABLE
                        GO TO   LOOP
                    END-IF.
 
@@ -178,13 +189,13 @@
 
                GANHOU.
 
-
                    DISPLAY 'JOGADOR ' JOGADOR ' GANHOU !'.
-                   MOVE 1 TO FIM.
+                   STOP RUN.
 
                VELHA.
+
                    DISPLAY 'DEU VELHA !'.
-                   MOVE 1 TO FIM.
+                   STOP RUN.
 
 
            END PROGRAM YOUR-PROGRAM-NAME.
