@@ -1,7 +1,7 @@
       ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
+      * Author:    GABRIEL CASANOVA SILVA
+      * Date:      20/02/2020
+      * Purpose:   ESTUDO
       * Tectonics: cobc
       ******************************************************************
            IDENTIFICATION DIVISION.
@@ -29,9 +29,10 @@
                    01 PONTO-TABLE.
                        05 X-PONTO          OCCURS 3 TIMES INDEXED BY XP.
                            10 Y-PONTO      OCCURS 3 TIMES INDEXED BY YP.
-                               15 PONTO    PIC 9.
+                               15 PONTO    PIC S9.
 
-                   01 PONTOS               PIC 9.
+                   01 PONTOS               PIC S9(01) VALUE 0.
+                   01 PONTOS2              PIC S9(01) VALUE 0.
 
       *             01 GABRIEL.
       *                 03 STATUS-OCUPACAO PIC X(1).
@@ -58,7 +59,6 @@
                    PERFORM ALTERA-PONTO.
                    PERFORM TROCA-JOGADOR.
                    PERFORM EXIBE-TABLE.
-
                    PERFORM VERIFICA-GANHADOR.
 
                LOOP.
@@ -71,14 +71,11 @@
 
                EXIBE-TABLE.
 
-                   PERFORM X-CASA VARYING X FROM 1 BY 1 UNTIL X > 3.
+                   PERFORM VARYING X FROM 1 BY 1 UNTIL X > 3
 
-               X-CASA.
-      *             PERFORM Y-CASA VARYING Y FROM 1 BY 1 UNTIL Y > 3.
-                   DISPLAY X-TABLE(X).
+                       DISPLAY X-TABLE(X)
 
-               Y-CASA.
-                   DISPLAY CASA(X,Y).
+                   END-PERFORM.
 
                VERIFICA-CASA.
 
@@ -88,6 +85,7 @@
                    END-IF.
 
                ALTERA-CASA.
+
                    IF QUEM
                        MOVE 'O' TO CASA(CORDENADA-X,CORDENADA-Y)
                    ELSE
@@ -98,9 +96,9 @@
                ALTERA-PONTO.
 
                    IF QUEM
-                       MOVE 0 TO PONTO(CORDENADA-X,CORDENADA-Y)
+                       MOVE -1 TO PONTO(CORDENADA-X,CORDENADA-Y)
                    ELSE
-                       MOVE 1 TO PONTO(CORDENADA-X,CORDENADA-Y)
+                       MOVE  1 TO PONTO(CORDENADA-X,CORDENADA-Y)
                    END-IF.
 
                TROCA-JOGADOR.
@@ -126,22 +124,53 @@
                    DISPLAY 'ENTRE CORDENADA Y :'
                    ACCEPT  CORDENADA-Y.
 
-               VERIFICA-GANHADOR.
+               VERIFICA-PONTOS.
 
-               PERFORM VARYING XP FROM 1 BY 1 UNTIL XP > 3
-                   PERFORM VARYING YP FROM 1 BY 1 UNTIL YP > 3
-                       COMPUTE PONTOS = PONTOS + PONTO(XP,YP)
-                   END-PERFORM
-
-                   IF PONTOS = 3 OR -3
+                   IF PONTOS  = 3 OR -3
                        GO TO GANHOU
                    ELSE
                        MOVE 0 TO PONTOS
-                   END-IF
+                   END-IF.
 
-               END-PERFORM.
+                   IF PONTOS2 = 3 OR -3
+                       GO TO GANHOU
+                   ELSE
+                       MOVE 0 TO PONTOS2
+                   END-IF.
 
+               VERIFICA-HOR-VER.
 
+                   PERFORM VARYING XP FROM 1 BY 1 UNTIL XP > 3
+                       PERFORM VARYING YP FROM 1 BY 1 UNTIL YP > 3
+                           COMPUTE PONTOS  = PONTOS  + PONTO(XP,YP)
+                           COMPUTE PONTOS2 = PONTOS2 + PONTO(YP,XP)
+                       END-PERFORM
+
+                       PERFORM VERIFICA-PONTOS
+
+                   END-PERFORM.
+
+               VERIFICA-DIAGONAL.
+
+                   MOVE 3 TO YP.
+
+                   PERFORM VARYING XP FROM 1 BY 1  UNTIL XP > 3
+
+                       COMPUTE PONTOS2 = PONTOS2 + PONTO(YP,XP)
+
+                       COMPUTE PONTOS  = PONTOS  + PONTO(XP,XP)
+
+                       COMPUTE YP = YP - 1
+
+                   END-PERFORM.
+
+               VERIFICA-GANHADOR.
+
+                   PERFORM VERIFICA-HOR-VER.
+
+                   PERFORM VERIFICA-DIAGONAL.
+
+                   PERFORM VERIFICA-PONTOS.
 
                GANHOU.
 
