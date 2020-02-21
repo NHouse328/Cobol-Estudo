@@ -15,7 +15,8 @@
                    01 CORDENADA-Y          PIC 9.
                        88 Y-MAX            VALUE 1 THRU 3.
 
-                   01 FIM                  PIC 9 VALUE 0.
+                   01 FIM                  PIC 9(01) VALUE 0.
+                   01 VELHA-PONTO          PIC 9(01) VALUE 0.
 
                    01 JOGADOR              PIC X(1) VALUE 'O'.
                        88 QUEM             VALUE 'X'.
@@ -33,10 +34,6 @@
 
                    01 PONTOS               PIC S9(01) VALUE 0.
                    01 PONTOS2              PIC S9(01) VALUE 0.
-
-      *             01 GABRIEL.
-      *                 03 STATUS-OCUPACAO PIC X(1).
-      *                             88 OCUPADO  VALUE '-'.
 
                    01 APOIO                PIC 9(02).
                    01 IND                  PIC 9(01).
@@ -64,6 +61,7 @@
                LOOP.
 
                    PERFORM JOGO VARYING APOIO FROM 1 BY 1 UNTIL FIM = 1.
+
 
                PREPARA-TABLE.
 
@@ -164,19 +162,29 @@
 
                    END-PERFORM.
 
+                   PERFORM VERIFICA-PONTOS.
+
                VERIFICA-GANHADOR.
 
                    PERFORM VERIFICA-HOR-VER.
 
                    PERFORM VERIFICA-DIAGONAL.
 
-                   PERFORM VERIFICA-PONTOS.
+                   ADD 1 TO VELHA-PONTO.
+
+                   IF VELHA-PONTO = 9
+                       GO TO VELHA
+                   END-IF.
 
                GANHOU.
+
 
                    DISPLAY 'JOGADOR ' JOGADOR ' GANHOU !'.
                    MOVE 1 TO FIM.
 
+               VELHA.
+                   DISPLAY 'DEU VELHA !'.
+                   MOVE 1 TO FIM.
 
 
            END PROGRAM YOUR-PROGRAM-NAME.
