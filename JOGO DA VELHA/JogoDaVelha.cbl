@@ -35,7 +35,7 @@
                    01 PONTOS               PIC S9(01) VALUE 0.
                    01 PONTOS2              PIC S9(01) VALUE 0.
 
-                   01 APOIO                PIC 9(02).
+                   01 IND2                PIC 9(02).
                    01 IND                  PIC 9(01).
 
            PROCEDURE DIVISION.
@@ -61,7 +61,7 @@
 
                LOOP.
 
-                   PERFORM JOGO VARYING APOIO FROM 1 BY 1 UNTIL FIM = 1.
+                   PERFORM JOGO VARYING IND2 FROM 1 BY 1 UNTIL FIM = 1.
 
                VISUAL.
 
@@ -166,7 +166,6 @@
                    PERFORM VARYING XP FROM 1 BY 1  UNTIL XP > 3
 
                        COMPUTE PONTOS2 = PONTOS2 + PONTO(YP,XP)
-
                        COMPUTE PONTOS  = PONTOS  + PONTO(XP,XP)
 
                        COMPUTE YP = YP - 1
