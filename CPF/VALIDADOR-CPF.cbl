@@ -22,7 +22,7 @@
            PROCEDURE DIVISION.
                MAIN-PROCEDURE.
 
-                MOVE 52998224725 TO CPF.
+                ACCEPT CPF.
 
                 PERFORM CALCULO-CPF-DIG-1.
                 PERFORM CALCULO-CPF-DIG-2.
